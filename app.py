@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-A routing layer for the onboarding bot tutorial built using
-[Slack's Events API](https://api.slack.com/events-api) in Python
-"""
+
 import json
 import bot
 from flask import Flask, request, make_response, render_template
@@ -14,23 +11,7 @@ app = Flask(__name__)
 
 
 def _event_handler(event_type, slack_event):
-    """
-    A helper function that routes events from Slack to our Bot
-    by event type and subtype.
 
-    Parameters
-    ----------
-    event_type : str
-        type of event recieved from Slack
-    slack_event : dict
-        JSON response from a Slack reaction event
-
-    Returns
-    ----------
-    obj
-        Response object with 200 - ok or 500 - No Event Handler error
-
-    """
     team_id = slack_event["team_id"]
     # ================ Team Join Events =============== #
     # When the user first joins a team, the type of event will be team_join
@@ -53,17 +34,15 @@ def _event_handler(event_type, slack_event):
                                  200,)
 
     elif event_type == "message":
-        print('messaging')
-        channel = slack_event["event"]["channel"]
-        message = 'hello'
-        # response = slack.api_call(
-        #     'auth.test')
-        # print('response:{}'.format(response))
-        slack.api_call(
-             "chat.postMessage",
-             channel=channel,
-             text=message
-        )
+        if slack_event['event']['text'] == 'Say hello':
+            print('messaging')
+            channel = slack_event["event"]["channel"]
+            message = 'hello'
+            slack.api_call(
+                 "chat.postMessage",
+                 channel=channel,
+                 text=message
+            )
 
     # ============= Reaction Added Events ============= #
     # If the user has added an emoji reaction to the onboarding message

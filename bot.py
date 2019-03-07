@@ -25,8 +25,6 @@ class Bot(object):
                       "scope": "bot"}
         self.verification = os.environ.get("VERIFICATION_TOKEN")
 
-        print('oauth: {}, verif token: {}'.format(self.oauth, self.verification))
-
         # NOTE: Python-slack requires a client connection to generate
         # an oauth token. We can connect to the client without authenticating
         # by passing an empty string as a token and then reinstantiating the
